@@ -20,18 +20,12 @@ int getHeightByNode(Node *node);
 
 int maxInt(int number1, int number2);
 
+void niceDisplayNode(Node *node, int gap);
+
 BinaryTree createBinaryTree() {
     BinaryTree newTree;
     newTree.root = NULL;
     return newTree;
-}
-
-Node *createNode(char value) {
-    Node *newNode = (Node *) malloc(sizeof(Node));
-    newNode->value = value;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
 }
 
 void addRandomlyValueToBinaryTree(BinaryTree *binaryTree, char value) {
@@ -143,4 +137,29 @@ int getHeightByNode(Node *node) {
 
 int maxInt(int number1, int number2) {
     return number1 >= number2 ? number1 : number2;
+}
+
+void niceDisplayTree(BinaryTree binaryTree) {
+    niceDisplayNode(binaryTree.root, 0);
+};
+
+void displayGap(int gap) {
+    for (int i = 0; i < gap-1; i++) {
+        printf("  ");
+    }
+    if (gap > 0) {
+        printf("%c%c", GAP_CORNER, GAP_LINE);
+    }
+}
+
+void displayByWidthBinaryTree(BinaryTree binaryTree) {
+    Queue myQueue = createQueue();
+    enqueue(&myQueue, binaryTree.root);
+    while(! isEmpty(myQueue)) {
+        Node *unQueuedNode = unQueue(&myQueue);
+        printf("%c ", unQueuedNode->value);
+        enqueue(&myQueue, unQueuedNode->left);
+        enqueue(&myQueue, unQueuedNode->right);
+    }
+    printf("\n");
 }
